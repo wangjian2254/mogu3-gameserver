@@ -15,11 +15,12 @@
 # limitations under the License.
 #
 import webapp2
-
-class MainHandler(webapp2.RequestHandler):
-    def get(self):
-        self.response.write('Hello world!')
+from gameserver.gamespace import CreateSpace, AddSpace, GetHotSpace, GetSpace, UploadPoint
 
 app = webapp2.WSGIApplication([
-    ('/', MainHandler)
+    ('/CreateSpace', CreateSpace),
+    ('/AddSpace', AddSpace),
+    ('/GetHotSpace', GetHotSpace),
+    ('/GetSpace', GetSpace),
+    ('/UploadPoint', UploadPoint),
 ], debug=True)
