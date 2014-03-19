@@ -275,8 +275,8 @@ def checkUser(self):#验证是否具有这个用户
         return False
 
 
-def getResult(result,success=True,message=u''):
-    return {'result':result,'success':success,'message':message}
+def getResult(result,success=True,message=u'',status=200):
+    return {'result':result,'success':success,'message':message,'status':status}
 
 
 def datetimeformat(value, format='%Y-%m-%d %H:%M'):
