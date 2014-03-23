@@ -1,6 +1,7 @@
 #coding=utf-8
 #Date: 11-12-8
 #Time: 下午10:28
+import logging
 import uuid,json
 from google.appengine.api import memcache
 from tools.page import Page
@@ -111,6 +112,8 @@ class UploadPoint(Page):
         spaceid = self.request.get('spaceid','')
         point = self.request.get('point','')
 
+        logging.info("%s:%s:%s:%s"%(username,appcode,spaceid,point))
+
         memcache.set(usergamepoint%(appcode,spaceid,username),point,3600)
         spacedict = memcache.get(gamespaceuserlist%(appcode,spaceid))
         userpointdict = []
@@ -124,4 +127,22 @@ class UploadPoint(Page):
     def post(self):
         self.get()
 
+
+class GetAllPoint(Page):
+    def get(self):
+        appcode = self.request.get('appcode','')
+        spaceid = self.request.get('spaceid','')
+
+        spacedict = memcache.get(gamespaceuserlist%(appcode,spaceid))
+        userpointdict = []
+        if spacedict:
+            for user in spacedict.get('userlist',[]):
+                p = memcache.get(usergamepoint%(appcode,spaceid,user))
+                userpointdict.append({'username':user, 'point':p})
+                logging.info("%s:%s:%s:%s"%(user,appcode,spaceid,p))
+
+        self.flush(getResult(userpointdict))
+
+    def post(self):
+        self.get()
 

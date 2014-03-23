@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 import webapp2
-from gameserver.gamespace import CreateSpace, AddSpace, GetHotSpace, GetSpace, UploadPoint
+from gameserver.gamespace import CreateSpace, AddSpace, GetHotSpace, GetSpace, UploadPoint, GetAllPoint
 
 app = webapp2.WSGIApplication([
     ('/CreateSpace', CreateSpace),
@@ -23,4 +23,5 @@ app = webapp2.WSGIApplication([
     ('/GetHotSpace', GetHotSpace),
     ('/GetSpace', GetSpace),
     ('/UploadPoint', UploadPoint),
+    ('/GetAllPoint', GetAllPoint),
 ], debug=True)

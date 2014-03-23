@@ -4,7 +4,6 @@ import string
 from jinja2 import filters
 from jinja2.filters import environmentfilter
 
-from mogu.models.model import User
 from setting import IsPassword
 
 __author__ = 'wangjian2254'
