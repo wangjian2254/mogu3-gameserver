@@ -29,11 +29,12 @@ def refreshSpace(appcode,spaceid):
 class CreateSpace(Page):
     def get(self):
         username = self.request.get('username','')
+        head = self.request.get('head','')
         appcode = self.request.get('appcode','')
         maxnum = self.request.get('maxnum',0)
 
         spaceid = str(uuid.uuid4())
-        spacedict={'spaceid':spaceid, 'maxnum':maxnum, 'author':username,'appcode':appcode, 'userlist':[username]}
+        spacedict={'spaceid':spaceid, 'maxnum':maxnum, 'author':username,'head':head,'appcode':appcode, 'userlist':[username], 'headlist':[head]}
         memcache.set(gamespaceuserlist%(appcode,spaceid),spacedict,3600*24)
         refreshSpace(appcode,spaceid)
 
@@ -46,6 +47,7 @@ class CreateSpace(Page):
 class AddSpace(Page):
     def get(self):
         username = self.request.get('username','')
+        head = self.request.get('head','0')
         appcode = self.request.get('appcode','')
         spaceid = self.request.get('spaceid','')
 
@@ -57,6 +59,7 @@ class AddSpace(Page):
         if spacedict:
             if username not in spacedict.get('userlist',[]):
                 spacedict['userlist'].append(username)
+                spacedict['headlist'].append(head)
                 memcache.set(gamespaceuserlist%(appcode,spaceid),spacedict,3600*24)
                 refreshSpace(appcode,spaceid)
             self.flush(getResult(spacedict))
